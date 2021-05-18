@@ -1,0 +1,8 @@
+.content {
+  display: none;
+}
+
+.show {
+  display: block;
+  margin-top: 10px;
+}
