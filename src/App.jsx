@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import ChoiceApp from './Components/ChoiceApp'
+import RandomChoose from './Components/RandomChoose'
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <ChoiceApp />
+        <RandomChoose />
       </div>
     )
   }

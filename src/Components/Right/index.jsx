@@ -1,35 +1,28 @@
 import React, { Component } from 'react'
 import './index.css'
 
-const TIMER_INTERVAL = 200;
+const TIMER_INTERVAL = 20;
 
 export default class Right extends Component {
 
   state = {
     timerId: null,
-    currentChoosenId: -1,
+    currentChoosenId: -1
   }
 
   handleClickStart = () => {
-    const { choices } = this.props
-    const { length } = choices
+    const { choices } = this.props;
+    const { length } = choices;
+    if (this.state.timerId !== null) return;
     if (length === 0) {
       alert('无选项');
       return;
     }
-    if (this.state.timerId !== null) {
-      return;
-    }
     let t = 0;
     const timerId = setInterval(() => {
-      this.setState({
-        currentChoosenId: t++ % choices.length,
-      });
+      this.setState({ currentChoosenId: t++ % choices.length });
     }, TIMER_INTERVAL);
-    this.setState({
-      timerId,
-    });
-    console.log(1)
+    this.setState({ timerId });
   }
 
   handleClickStop = () => {
@@ -39,18 +32,31 @@ export default class Right extends Component {
 
   renderCurrent() {
     const { choices } = this.props;
-    const { currentChoosenId } = this.state;
-    if (choices.length === 0 || currentChoosenId === -1) {
+    const { currentChoosenId } = this.state
+    if (choices.length <= currentChoosenId || currentChoosenId === -1) {
       return (
         <div className="final-choice" style={{ backgroundColor: '#ddd' }}>
           <div className="final-choice-text">{'点击Start开始'}</div>
-        </div>);
+        </div>
+      );
+    } else {
+      const { text, color } = choices[currentChoosenId];
+      return (
+        <div className="final-choice" style={{ backgroundColor: color }}>
+          {<div className="final-choice-text">{text}</div>}
+        </div>
+      );
     }
-    const { value: text, color } = choices[currentChoosenId];
-    return (
-      <div className="final-choice" style={{ backgroundColor: color }}>
-        {<div className="final-choice-text">{text}</div>}
-      </div>);
+  }
+
+  handleClickClear = () => {
+    if (this.state.choices.length !== 0) {
+      if (window.confirm('确定全部清楚吗？')) {
+        this.setState({ choices: [] });
+      }
+    } else {
+      alert('无选项');
+    }
   }
 
   render() {
