@@ -6,9 +6,7 @@ import './index.css'
 export default class RandomChoose extends Component {
 
   state = {
-    choices: [
-    ],
-    currentChoosenID: -1,
+    choices: []
   }
 
   addChoice = (text) => {
@@ -24,8 +22,7 @@ export default class RandomChoose extends Component {
   clearAll = () => {
     if (this.state.choices.length !== 0) {
       if (window.confirm('确定全部清楚吗？')) {
-        this.setState({ choices: [], currentChoosenID: -1 });
-        console.log('ID:' + this.state.currentChoosenID)
+        this.setState({ choices: [] });
       }
     } else {
       alert('无选项');
@@ -33,14 +30,12 @@ export default class RandomChoose extends Component {
   }
 
   render() {
-    console.log('render')
-    const { choices, currentChoosenID } = this.state;
-    console.log(currentChoosenID)
+    const { choices } = this.state;
     return (
       <div className="container">
         <h1>Get Your Choice</h1>
         <Left choices={choices} addChoice={this.addChoice} clearAll={this.clearAll} />
-        <Right choices={choices} currentChoosenID={currentChoosenID} />
+        <Right choices={choices} />
       </div>
     )
   }

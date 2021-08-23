@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import './index.css'
 
-const TIMER_INTERVAL = 200;
+const TIMER_INTERVAL = 20;
 
 export default class Right extends Component {
 
   state = {
     timerId: null,
-    currentChoosenId: this.props.currentChoosenID
+    currentChoosenId: -1
   }
 
   handleClickStart = () => {
@@ -31,24 +31,35 @@ export default class Right extends Component {
   }
 
   renderCurrent() {
-    const { choices, currentChoosenID } = this.props;
-    const { currentChoosenId } = this.state;
-    console.log('id:' + currentChoosenId)
-    if (choices.length === 0 || currentChoosenId === -1) {
+    const { choices } = this.props;
+    const { currentChoosenId } = this.state
+    if (choices.length <= currentChoosenId || currentChoosenId === -1) {
       return (
         <div className="final-choice" style={{ backgroundColor: '#ddd' }}>
           <div className="final-choice-text">{'点击Start开始'}</div>
-        </div>);
+        </div>
+      );
+    } else {
+      const { text, color } = choices[currentChoosenId];
+      return (
+        <div className="final-choice" style={{ backgroundColor: color }}>
+          {<div className="final-choice-text">{text}</div>}
+        </div>
+      );
     }
-    const { text, color } = choices[currentChoosenId];
-    return (
-      <div className="final-choice" style={{ backgroundColor: color }}>
-        {<div className="final-choice-text">{text}</div>}
-      </div>);
+  }
+
+  handleClickClear = () => {
+    if (this.state.choices.length !== 0) {
+      if (window.confirm('确定全部清楚吗？')) {
+        this.setState({ choices: [] });
+      }
+    } else {
+      alert('无选项');
+    }
   }
 
   render() {
-    console.log('renderRight');
     return (
       <div className="right">
         <h2 className="right-header">Your Final Choice</h2>
